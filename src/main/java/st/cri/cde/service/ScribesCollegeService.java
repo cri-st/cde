@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import st.cri.cde.config.AuthConfig;
 import st.cri.cde.config.AuthToken;
+import st.cri.cde.dto.ScribeDto;
 
 import java.net.URI;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ScribesCollegeService {
     private AuthToken authToken;
     private AuthConfig authConfig;
 
-    public String getScribe(Long cuit) {
+    public ScribeDto getScribe(Long cuit) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -30,8 +31,9 @@ public class ScribesCollegeService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         URI url = UriComponentsBuilder.fromUriString(authConfig.getUrl()).path(URI_PATH).buildAndExpand(cuit).toUri();
-        ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET, entity, Object.class);
+        ResponseEntity<ScribeDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, ScribeDto.class);
         log.info("response {}", response.getBody());
-        return response.getBody().toString();
+
+        return response.getBody();
     }
 }
