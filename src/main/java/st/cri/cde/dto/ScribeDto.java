@@ -8,6 +8,7 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScribeDto {
+    private String cuit;
     private String apellido;
     private String cargo;
     private String celular;

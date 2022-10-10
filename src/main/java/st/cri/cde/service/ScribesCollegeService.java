@@ -22,7 +22,7 @@ public class ScribesCollegeService {
     private AuthToken authToken;
     private AuthConfig authConfig;
 
-    public ScribeDto getScribe(Long cuit) {
+    public ScribeDto getScribe(String cuit) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -30,10 +30,15 @@ public class ScribesCollegeService {
         headers.set("Authorization", authToken.getToken());
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        URI url = UriComponentsBuilder.fromUriString(authConfig.getUrl()).path(URI_PATH).buildAndExpand(cuit).toUri();
-        ResponseEntity<ScribeDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, ScribeDto.class);
-        log.info("response {}", response.getBody());
+        long formattedCuit = Long.parseLong(cuit.replace("-", ""));
 
-        return response.getBody();
+        URI url = UriComponentsBuilder.fromUriString(authConfig.getUrl()).path(URI_PATH).buildAndExpand(formattedCuit).toUri();
+        ResponseEntity<ScribeDto> response = restTemplate.exchange(url, HttpMethod.GET, entity, ScribeDto.class);
+        ScribeDto scribe = response.getBody();
+        assert scribe != null;
+        scribe.setCuit(cuit);
+        log.info("response {}", scribe);
+
+        return scribe;
     }
 }

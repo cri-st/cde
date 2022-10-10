@@ -1,0 +1,29 @@
+<div th:fragment="resul" class="container">
+  <table  th:if="${scribe.nombre != null}" class="table table-striped table-bordered">
+    <h4 class="display-4">Resultado</h4>
+    <tbody>
+    <tr>
+      <th scope="row">Nombre</th>
+      <td th:text="${scribe.nombre}">Mark</td>
+    </tr>
+    <tr>
+      <th scope="row">Apellido</th>
+      <td th:text="${scribe.apellido}">Jacob</td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td th:text="${scribe.email}">Larry</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:if="${scribe.cuit != null && scribe.nombre == null}" class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">No se encontro Resultados!</h4>
+    <p th:text="'CUIT: ' + ${scribe.cuit}"></p>
+    <hr>
+    <p class="mb-0">No se encontro un escribano para la CUIT informada</p>
+  </div>
+
+</div>
+
+
