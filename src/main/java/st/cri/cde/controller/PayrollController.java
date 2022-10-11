@@ -9,40 +9,65 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 import st.cri.cde.dto.ScribeDto;
 import st.cri.cde.service.ScribesCollegeService;
 
+/**
+ * The Payroll controller.
+ */
 @Slf4j
-@Controller(value = "/")
+@Controller("/")
 @AllArgsConstructor
 public class PayrollController {
 
-    private ScribesCollegeService scribesCollegeService;
+  private ScribesCollegeService service;
 
-    @GetMapping
-    public String query(Model model) {
-        final ScribeDto scribe = new ScribeDto();
-        model.addAttribute("scribe", scribe);
-        return "query";
-    }
+  /**
+   * Query endpoint.
+   *
+   * @param model the model
+   * @return the string
+   */
+  @GetMapping
+  public String query(final Model model) {
+    final ScribeDto scribe = new ScribeDto();
+    model.addAttribute("scribe", scribe);
+    return "query";
+  }
 
-    @PostMapping
-    public String runQuery(@ModelAttribute("scribe") ScribeDto scribe, Model model) {
-        ScribeDto result = new ScribeDto();
-        try {
-            Long.parseLong(scribe.getCuit().replace("-", ""));
-            result = scribesCollegeService.getScribe(scribe.getCuit());
-        } catch (Exception e) {
-            result.setCuit(scribe.getCuit());
-            log.error("error en el servicio {}", e.getMessage());
-        }
-        model.addAttribute("scribe", result);
-        return "query";
+  /**
+   * Run query endpoint.
+   *
+   * @param scribe the scribe
+   * @param model  the model
+   * @return the string
+   */
+  @PostMapping
+  public String runQuery(@ModelAttribute("scribe") final ScribeDto scribe, final Model model) {
+    ScribeDto result;
+    try {
+      Long.parseLong(scribe.getCuit().replace("-", ""));
+      result = service.getScribe(scribe.getCuit());
+    } catch (NumberFormatException | HttpClientErrorException e) {
+      result = scribe;
+      if (log.isErrorEnabled()) {
+        log.error("error en el servicio {}", e.getMessage());
+      }
     }
+    model.addAttribute("scribe", result);
+    return "query";
+  }
 
-    @GetMapping("/{cuit}")
-    @ResponseBody
-    public ScribeDto getScribe(@PathVariable("cuit") Long cuit) {
-        return scribesCollegeService.getScribe(cuit.toString());
-    }
+  /**
+   * Gets scribe endpoint.
+   *
+   * @param cuit the cuit
+   * @return the scribe
+   */
+  @GetMapping("/{cuit}")
+  @ResponseBody
+  public ScribeDto getScribe(@PathVariable("cuit") final Long cuit) {
+    return service.getScribe(cuit.toString());
+  }
 }
