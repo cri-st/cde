@@ -16,7 +16,8 @@ Colegio de Escribano's Demo project
 4) Run the `ScribesCollegeApp` main.
 
 ## Start-up
-Run the command:
-```
-./mvnw spring-boot:run
-```
+1) Run the command:
+    ```
+    ./mvnw spring-boot:run
+    ```
+2) Go to `http://127.0.0.1:8080/`
