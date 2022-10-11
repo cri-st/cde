@@ -24,7 +24,7 @@
             <form class="form-group" th:action="@{/}" th:object="${scribe}" method="POST">
                 <label for="inputCUIT">Búsqueda</label>
                 <div class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" th:field="*{cuit}" pattern="(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" id="inputCUIT" placeholder="XX-XXXXXXXX-X" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" th:field="*{cuit}" pattern="(20|23|24|27|30|33|34)(\D)?[0-9]{8}(\D)?[0-9]" id="inputCUIT" placeholder="XX-XXXXXXXX-X" aria-label="Search" required>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
                 </div>
             </form>
