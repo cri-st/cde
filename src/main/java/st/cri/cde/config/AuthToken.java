@@ -33,7 +33,7 @@ public class AuthToken {
     return "Bearer " + token;
   }
 
-  private String createJwt() {
+  protected String createJwt() {
     //The JWT signature algorithm we will be using to sign the token
     final SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 
