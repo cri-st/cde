@@ -21,3 +21,10 @@ Colegio de Escribano's Demo project
     ./mvnw spring-boot:run
     ```
 2) Go to `http://127.0.0.1:8080/`
+
+### Test Data:
+20-26157300-9
+
+20-24753222-7
+
+27-18814594-4
